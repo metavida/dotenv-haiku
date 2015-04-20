@@ -1,4 +1,4 @@
-module Dotenv
+class DotenvHaiku
   # Determines the list of .env* files that are appropriate
   # for the current/given app_env and app_root
   class Loader
