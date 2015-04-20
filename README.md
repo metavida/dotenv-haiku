@@ -1,22 +1,18 @@
 # dotenv-haiku [![Build Status](https://secure.travis-ci.org/metavida/dotenv.png?branch=haiku)](https://travis-ci.org/metavida/dotenv)
 
-A fork of [the bkeepers/dotenv project](https://github.com/bkeepers/dotenv/).
+A replacement of for `dotenv-rails` that meets a few specific requirements
 
-## Purpose
-
-This fork exists to fulfill a few specific purposes for us
-
-* Enforce a few specific load rules
+* Enforce specific load rules
   * Load the `.env.custom` file on development environments.
   * Load the `".env.#{Rails.env}"` file and **fail hard** if the file does not exist on production.
-* Better support for older Rails versions and non-Rails apps.
+* Better supports older Rails versions and non-Rails apps.
 
 ## Installation
 
 Add this line to the top of your application's Gemfile:
 
 ```ruby
-gem 'dotenv-haiku', require: 'dotenv/rails', git: 'git@github.com:metavida/dotenv.git', branch: 'haiku'
+gem 'dotenv-haiku', require: 'dotenv-haiku', git: 'git@github.com:metavida/dotenv-haiku.git'
 ```
 
 And then execute:
@@ -43,7 +39,7 @@ HOSTNAME = ENV['HOSTNAME']
 If you use gems that require environment variables to be set before they are loaded, then list `dotenv-rails` in the `Gemfile` before those other gems and require `dotenv/rails-now`.
 
 ```ruby
-gem 'dotenv-haiku', require: 'dotenv/rails-now', git: 'git@github.com:metavida/dotenv.git', branch: 'haiku'
+gem 'dotenv-haiku', require: 'dotenv-haiku/now', git: 'git@github.com:metavida/dotenv-haiku.git'
 gem 'gem-that-requires-env-variables'
 ```
 
@@ -53,7 +49,7 @@ As early as possible in your application bootstrap process, load `.env`:
 
 ```ruby
 # config/application.rb
-require 'dotenv/rails-now'
+require 'dotenv-haiku/now'
 ```
 
 ### Rails 1
@@ -61,7 +57,7 @@ require 'dotenv/rails-now'
 ```ruby
 # config/environment.rb
 # in the `Rails::Initializer.run do |config|` block
-require 'dotenv/rails-now'
+require 'dotenv-haiku/now'
 ```
 
 ### non-Rails
@@ -71,7 +67,7 @@ Currently, the gem depends on ActiveSupport::StringInquirer behavior, so you hav
 #### Include the ActiveSupport gem
 
 ```ruby
-gem 'active_support', git: 'git@github.com:metavida/dotenv.git', branch: 'haiku'
+gem 'active_support'
 ```
 
 And then execute:
@@ -84,8 +80,8 @@ As early as possible in your application bootstrap process, load `.env`:
 
 ```ruby
 require 'active_support/string_inquirer'
-require 'dotenv/rails'
-Dotenv::Railtie.load(:app_env => ActiveSupport::StringInquirer.new(ENV["RACK_ENV"]))
+require 'dotenv-haiku'
+Dotenv::App.load(:app_env => ActiveSupport::StringInquirer.new(ENV["RACK_ENV"]))
 # Yup, that's right. These references to "rails"
 # should work, even for non-Rails apps
 ```
@@ -105,8 +101,8 @@ class MyStringInquirer < String
   end
 end
 
-require 'dotenv/rails'
-Dotenv::Railtie.load(:app_env => MyStringInquirer.new(ENV["RACK_ENV"]))
+require 'dotenv-haiku'
+Dotenv::App.load(:app_env => MyStringInquirer.new(ENV["RACK_ENV"]))
 ```
 
 ## Contributing

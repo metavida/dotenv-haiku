@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-### Changed
+### Breaking Changes
+
+* Now use `require "dotenv-haiku"` instead of `require "dotenv/rails"`
+* Now use `DotenvHaiku.load` instead of `Dotenv::Railtie.load`
+
+### Changes
 
 * Start with a clean branch (completely separate from the bkeepers/dotenv project)
 

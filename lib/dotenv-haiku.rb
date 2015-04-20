@@ -25,6 +25,10 @@ class DotenvHaiku
       DotenvHaiku::App.load
     end
 
+    def options
+      @options ||= {}
+    end
+
     private
 
     def set_up_app
@@ -51,11 +55,11 @@ class DotenvHaiku
     end
 
     def app_name
-      @options[:app_name] || "Rails"
+      options[:app_name] || "Rails"
     end
 
     def app_version
-      return @options[:app_version] if @options[:app_version]
+      return options[:app_version] if options[:app_version]
 
       begin
         Rails.version
