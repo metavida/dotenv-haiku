@@ -1,0 +1,15 @@
+Style/Documentation:
+  Exclude:
+    - 'Rakefile'
+    - 'lib/dotenv-haiku/version.rb'
+
+Style/FileName:
+  Exclude:
+    - 'lib/dotenv-haiku.rb'
+    - 'lib/dotenv-haiku/load-now.rb'
+
+Style/HashSyntax:
+  EnforcedStyle: 'hash_rockets'
+
+Style/StringLiterals:
+  EnforcedStyle: 'double_quotes'

@@ -4,7 +4,7 @@
 require "dotenv"
 begin
   require "spring/watcher"
-rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
   # Spring is not available
 end
 

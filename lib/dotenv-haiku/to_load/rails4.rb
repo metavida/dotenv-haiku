@@ -12,7 +12,7 @@ begin
     event = ActiveSupport::Notifications::Event.new(*args)
     Spring.watch event.payload[:env].filename if Rails.application
   end
-rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
   # Spring is not available
 end
 
