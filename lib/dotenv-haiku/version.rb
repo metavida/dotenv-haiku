@@ -1,3 +1,3 @@
-module DotenvHaiku
+class DotenvHaiku
   VERSION = "0.2.0"
 end

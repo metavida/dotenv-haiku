@@ -1,4 +1,5 @@
 require "dotenv"
+require "dotenv-haiku/loader"
 
 # Load .env files
 # and for supported versions of Rails

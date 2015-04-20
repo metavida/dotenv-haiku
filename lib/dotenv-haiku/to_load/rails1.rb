@@ -11,7 +11,7 @@ class DotenvHaiku
     end
 
     def to_load
-      Dotenv::ToLoad.new(
+      DotenvHaiku::Loader.new(
         :app_env => StringInquirerBackport.new(RAILS_ENV),
         :app_root => RAILS_ROOT
       )

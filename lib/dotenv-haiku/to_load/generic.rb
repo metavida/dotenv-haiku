@@ -19,7 +19,7 @@ class DotenvHaiku
       options = {
         :app_root => root
       }.merge(options)
-      Dotenv::ToLoad.new(options)
+      DotenvHaiku::Loader.new(options)
     end
 
     # Rails uses `#method_missing` to delegate all class methods to the
