@@ -8,6 +8,14 @@ Style/FileName:
     - 'lib/dotenv-haiku.rb'
     - 'lib/dotenv-haiku/load-now.rb'
 
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'spec/*'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/*'
+
 Style/HashSyntax:
   EnforcedStyle: 'hash_rockets'
 
