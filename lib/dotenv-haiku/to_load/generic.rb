@@ -1,9 +1,7 @@
-require "dotenv"
-
-module Dotenv
+class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Ruby applications
-  class Railtie
+  class App
     # Public: Load dotenv
     #
     # Manually call `Dotenv::Railtie.load` in your app's config

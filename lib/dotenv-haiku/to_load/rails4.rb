@@ -16,10 +16,10 @@ rescue LoadError
   # Spring is not available
 end
 
-module Dotenv
+class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails applications
-  class Railtie < Rails::Railtie
+  class App < Rails::Railtie
     config.before_configuration { load }
 
     # Public: Load dotenv
