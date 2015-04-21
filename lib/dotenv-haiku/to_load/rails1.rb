@@ -1,3 +1,5 @@
+require "haiku-dotenv/string_inquirer_backport"
+
 class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails application
@@ -21,18 +23,6 @@ class DotenvHaiku
     # instance, which means `Kernel#load` gets called here. We don't want that.
     def self.load
       new.load
-    end
-  end
-
-  # Backporting ActiveSupprt::StringInquirer from Rails 3.2.21
-  # See https://github.com/rails/rails/blob/v3.2.21/activesupport/lib/active_support/string_inquirer.rb
-  class StringInquirerBackport < String
-    def method_missing(method_name, *arguments)
-      if method_name.to_s[-1, 1] == "?"
-        self == method_name.to_s[0..-2]
-      else
-        super
-      end
     end
   end
 end

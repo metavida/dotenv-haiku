@@ -1,5 +1,5 @@
 require "spec_helper"
-require "active_support/string_inquirer"
+require "haiku-dotenv/string_inquirer_backport"
 
 # Dummy class
 class Rails
@@ -14,7 +14,7 @@ describe DotenvHaiku::Loader do
     context "development environment" do
       before do
         @loader = DotenvHaiku::Loader.new(
-          :app_env  => ActiveSupport::StringInquirer.new("development"),
+          :app_env  => DotenvHaiku::StringInquirerBackport.new("development"),
           :app_root => @app_root
         )
       end
@@ -33,7 +33,7 @@ describe DotenvHaiku::Loader do
     context "test environment" do
       before do
         @loader = DotenvHaiku::Loader.new(
-          :app_env  => ActiveSupport::StringInquirer.new("test"),
+          :app_env  => DotenvHaiku::StringInquirerBackport.new("test"),
           :app_root => @app_root
         )
       end
@@ -51,7 +51,7 @@ describe DotenvHaiku::Loader do
     context "production environment" do
       before do
         @loader = DotenvHaiku::Loader.new(
-          :app_env  => ActiveSupport::StringInquirer.new("production"),
+          :app_env  => DotenvHaiku::StringInquirerBackport.new("production"),
           :app_root => @app_root
         )
       end
