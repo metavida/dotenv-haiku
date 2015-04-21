@@ -1,4 +1,8 @@
-# dotenv-haiku [![Build Status](https://secure.travis-ci.org/metavida/dotenv-haiku.png)](https://travis-ci.org/metavida/dotenv-haiku)
+[![Build Status](https://secure.travis-ci.org/metavida/dotenv-haiku.png)](https://travis-ci.org/metavida/dotenv-haiku)
+[![Code Climate](https://codeclimate.com/github/metavida/dotenv-haiku/badges/gpa.svg)](https://codeclimate.com/github/metavida/dotenv-haiku)
+[![Test Coverage](https://codeclimate.com/github/metavida/dotenv-haiku/badges/coverage.svg)](https://codeclimate.com/github/metavida/dotenv-haiku)
+
+# dotenv-haiku
 
 A replacement of for `dotenv-rails` that meets a few specific requirements
 

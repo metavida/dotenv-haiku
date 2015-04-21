@@ -1,3 +1,10 @@
+begin
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+rescue LoadError # rubocop:disable Lint/HandleExceptions
+  # Don't fail hard if this gem isn't installed
+end
+
 require "dotenv-haiku"
 
 RSpec.configure do |config|
