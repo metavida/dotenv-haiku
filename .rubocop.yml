@@ -10,11 +10,11 @@ Style/FileName:
 
 Style/ClassAndModuleChildren:
   Exclude:
-    - 'spec/*'
+    - 'spec/**/*'
 
 Style/BlockDelimiters:
   Exclude:
-    - 'spec/*'
+    - 'spec/**/*'
 
 Style/HashSyntax:
   EnforcedStyle: 'hash_rockets'

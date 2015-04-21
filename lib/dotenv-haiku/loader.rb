@@ -18,6 +18,8 @@ class DotenvHaiku
       validate_app_env
     end
 
+    # TODO: Reduce Assignment Branch Condition size (then re-enable rubocop)
+    # rubocop:disable Metrics/AbcSize
     def to_a
       to_load = []
       # Dotenv values for your local development environment only
@@ -38,6 +40,7 @@ class DotenvHaiku
 
       to_load
     end
+    # rubocop:enable Metrics/AbcSize
 
     def app_env
       @app_env ||= Rails.env
