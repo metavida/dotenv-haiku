@@ -1,5 +1,5 @@
 require "spec_helper"
-require "haiku-dotenv/string_inquirer_backport"
+require "dotenv-haiku/string_inquirer_backport"
 
 # Dummy class
 class Rails

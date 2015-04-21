@@ -1,4 +1,4 @@
-require "haiku-dotenv/string_inquirer_backport"
+require "dotenv-haiku/string_inquirer_backport"
 
 class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
