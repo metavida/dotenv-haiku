@@ -1,4 +1,4 @@
-# dotenv-haiku [![Build Status](https://secure.travis-ci.org/metavida/dotenv.png?branch=haiku)](https://travis-ci.org/metavida/dotenv)
+# dotenv-haiku [![Build Status](https://secure.travis-ci.org/metavida/dotenv-haiku.png)](https://travis-ci.org/metavida/dotenv-haiku)
 
 A replacement of for `dotenv-rails` that meets a few specific requirements
 
