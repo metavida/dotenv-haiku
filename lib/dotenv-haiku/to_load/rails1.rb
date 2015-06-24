@@ -4,25 +4,46 @@ class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails application
   class App
-    # Public: Load dotenv
-    #
-    # Manually add `Dotenv::Railtie.load` in your app's config/environment.rb
-    # inside the `Rails::Initializer.run do |config|` block
+    attr_accessor :options
+
+    def self.load(options = {})
+      instance = new
+      instance.options = options
+      instance.load
+    end
+
     def load
       Dotenv.load(*to_load)
     end
 
     def to_load
       DotenvHaiku::Loader.new(
-        :app_env => StringInquirerBackport.new(RAILS_ENV),
-        :app_root => RAILS_ROOT
+        :app_env  => app_env,
+        :app_root => app_root
       )
     end
 
-    # Rails uses `#method_missing` to delegate all class methods to the
-    # instance, which means `Kernel#load` gets called here. We don't want that.
-    def self.load
-      new.load
+    private
+
+    # Returns a StringInquirer-wrapped string
+    # Uses the given :app_env of falls back to the default
+    def app_env
+      StringInquirerBackport.new(options[:app_env] || default_app_env)
+    end
+
+    # Returns the given :app_root or falls back to the default
+    def app_root
+      options[:app_root] || default_root
+    end
+
+    def default_app_env
+      ::RAILS_ENV
+    end
+
+    def default_root
+      ::RAILS_ROOT || Dir.pwd
+    rescue NameError
+      Dir.pwd
     end
   end
 end

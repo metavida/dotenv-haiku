@@ -1,6 +1,6 @@
 require "spec_helper"
 
-context "rails 1 application" do
+context "Rails 1 application" do
   before :context do
     undefine DotenvHaiku, :App
     require "dotenv-haiku/to_load/rails1"
