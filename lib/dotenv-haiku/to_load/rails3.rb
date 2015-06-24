@@ -11,7 +11,7 @@ end
 class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails applications
-  class App < Rails::Railtie
+  class App < ::Rails::Railtie
     class NoAppEnvFound < RuntimeError; end
     class NoAppRootFound < RuntimeError; end
 
@@ -40,7 +40,7 @@ class DotenvHaiku
     # Returns a StringInquirer-wrapped string
     # Uses the given :app_env of falls back to the default
     def app_env
-      ApplicationSupport::StringInquirer.new(
+      ActiveSupport::StringInquirer.new(
         options[:app_env] || default_app_env
       )
     end

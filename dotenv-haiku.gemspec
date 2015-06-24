@@ -16,4 +16,5 @@ Gem::Specification.new "dotenv-haiku", DotenvHaiku::VERSION do |gem|
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "rubocop" if RUBY_VERSION >= "1.9.3"
+  gem.add_development_dependency "appraisal"
 end
