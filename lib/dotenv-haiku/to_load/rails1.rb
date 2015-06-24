@@ -4,6 +4,9 @@ class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails application
   class App
+    class NoAppEnvFound < RuntimeError; end
+    class NoAppRootFound < RuntimeError; end
+
     attr_accessor :options
 
     def self.load(options = {})
@@ -38,12 +41,14 @@ class DotenvHaiku
 
     def default_app_env
       ::RAILS_ENV
+    rescue NameError
+      raise NoAppEnvFound, "No RAILS_ENV constant was defined"
     end
 
     def default_root
-      ::RAILS_ROOT || Dir.pwd
+      ::RAILS_ROOT
     rescue NameError
-      Dir.pwd
+      raise NoAppRootFound, "No RAILS_ROOT constant was defined"
     end
   end
 end

@@ -52,7 +52,7 @@ class DotenvHaiku
         APP_ENV
       ).detect { |key| !ENV[key].to_s.empty? }
 
-      if ENV[env_key]
+      if env_key && ENV[env_key]
         ENV[env_key]
       else
         fail NoAppEnvFound, 'Expected ENV["RACK_ENV"] be a non-blank string.'

@@ -29,7 +29,9 @@ context "generic application" do
         it "should raise an error with no arguments" do
           expect(DotenvHaiku::Loader).to receive(:new).never
 
-          expect { DotenvHaiku::App.load }.to raise_error
+          expect {
+            DotenvHaiku::App.load
+          }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
         end
         it "should use :app_env argument" do
           expect(DotenvHaiku::Loader).to receive(:new)\
