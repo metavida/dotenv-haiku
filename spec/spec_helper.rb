@@ -19,10 +19,10 @@ end
 
 RSpec::Matchers.define :a_string_inquirer do |expected|
   match do |actual|
+    return true if actual.blank?
     expected ||= actual
-    actual.blank? ||
-      actual.send("#{expected}?") == true &&
-        actual.send("#{expected.succ}?") == false
+    actual.send("#{expected}?") == true &&
+      actual.send("#{expected.succ}?") == false
   end
 end
 
@@ -32,5 +32,6 @@ def override_env(new_vals = {})
   new_vals.each { |key, val| ENV[key] = val }
   yield
 ensure
+  new_vals.each { |key, _| ENV[key] = nil }
   orig_env.each { |key, val| ENV[key] = val }
 end
