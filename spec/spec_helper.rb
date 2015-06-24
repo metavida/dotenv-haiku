@@ -35,3 +35,7 @@ ensure
   new_vals.each { |key, _| ENV[key] = nil }
   orig_env.each { |key, val| ENV[key] = val }
 end
+
+def undefine(klass, const)
+  klass.send(:remove_const, const) if klass.constants.include?(const)
+end

@@ -2,9 +2,7 @@ require "spec_helper"
 
 context "generic application" do
   before :context do
-    if DotenvHaiku.constants.include?(:App)
-      DotenvHaiku.send(:remove_const, :App)
-    end
+    undefine DotenvHaiku, :App
     require "dotenv-haiku/to_load/generic"
   end
 
