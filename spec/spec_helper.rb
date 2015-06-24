@@ -16,3 +16,21 @@ end
 def fixture_path(name)
   File.join(File.expand_path("../fixtures", __FILE__), name)
 end
+
+RSpec::Matchers.define :a_string_inquirer do |expected|
+  match do |actual|
+    expected ||= actual
+    actual.blank? ||
+      actual.send("#{expected}?") == true &&
+        actual.send("#{expected.succ}?") == false
+  end
+end
+
+def override_env(new_vals = {})
+  orig_env = {}
+  ENV.each { |key, val| orig_env[key] = val }
+  new_vals.each { |key, val| ENV[key] = val }
+  yield
+ensure
+  orig_env.each { |key, val| ENV[key] = val }
+end
