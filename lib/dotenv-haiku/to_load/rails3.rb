@@ -12,30 +12,58 @@ class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails applications
   class App < Rails::Railtie
-    # Public: Load dotenv
-    #
-    # This will get called during the `before_configuration` callback, but you
-    # can manually call `Dotenv::Railtie.load` if you needed it sooner.
+    class NoAppEnvFound < RuntimeError; end
+    class NoAppRootFound < RuntimeError; end
+
+    attr_accessor :options
+
+    def self.load(options = {})
+      instance = new
+      instance.options = options
+      instance.load
+    end
+
     def load
       Dotenv.load(*to_load)
       Spring.watch(*to_load) if defined?(Spring)
     end
 
+    def to_load
+      DotenvHaiku::Loader.new(
+        :app_env  => app_env,
+        :app_root => app_root
+      )
+    end
+
+    private
+
+    # Returns a StringInquirer-wrapped string
+    # Uses the given :app_env of falls back to the default
+    def app_env
+      ApplicationSupport::StringInquirer.new(
+        options[:app_env] || default_app_env
+      )
+    end
+
+    # Returns the given :app_root or falls back to the default
+    def app_root
+      options[:app_root] || default_root
+    end
+
+    def default_app_env
+      ::Rails.env
+    rescue NameError
+      raise NoAppEnvFound, "No RAILS_ENV constant was defined"
+    end
+
     # Internal: `Rails.root` is nil in Rails 4.1 before the application is
     # initialized, so this falls back to the `RAILS_ROOT` environment variable,
     # or the current working directory.
-    def root
-      Rails.root || Pathname.new(ENV["RAILS_ROOT"] || Dir.pwd)
-    end
-
-    def to_load
-      DotenvHaiku::Loader.new(:app_root => root)
-    end
-
-    # Rails uses `#method_missing` to delegate all class methods to the
-    # instance, which means `Kernel#load` gets called here. We don't want that.
-    def self.load
-      instance.load
+    def default_root
+      root = ::Rails.root || ENV["RAILS_ROOT"]
+      root || (fail NoAppRootFound, "No RAILS_ROOT constant was defined")
+    rescue NameError
+      raise NoAppRootFound, "No RAILS_ROOT constant was defined"
     end
 
     config.before_configuration { load }
