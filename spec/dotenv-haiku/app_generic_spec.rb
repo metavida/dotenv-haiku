@@ -19,6 +19,15 @@ context "generic application" do
       end
 
       context "with empty ENV" do
+        around(:example) do |example|
+          override_env(
+            {
+              "RACK_ENV" => nil,
+              "RAILS_ENV" => nil,
+              "APP_ENV" => nil
+            }, &example)
+        end
+
         it "should raise an error with no arguments" do
           expect(DotenvHaiku::Loader).to receive(:new).never
 
@@ -81,6 +90,12 @@ context "generic application" do
       ].each do |context_name, given_env, expected_app_env|
         context context_name do
           around(:example) do |example|
+            given_env = {
+              "RACK_ENV" => nil,
+              "RAILS_ENV" => nil,
+              "APP_ENV" => nil
+            }.merge(given_env)
+
             override_env(given_env, &example)
           end
           it "should work with no arguments" do
