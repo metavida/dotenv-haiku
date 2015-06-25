@@ -10,7 +10,6 @@ puts 'start spec3'
 
 context "Rails 3 application" do
   before :context do
-    require 'rails/all'
     undefine DotenvHaiku, :App
     require "dotenv-haiku/to_load/rails3"
   end
@@ -25,54 +24,57 @@ context "Rails 3 application" do
         "app_root_arg"
       end
 
-      #context "with no Rails object" do
-      #  before :context do
-      #    undefine Object, :Rails
-      #  end
-      #
-      #  it "should raise an error with no arguments" do
-      #    expect(DotenvHaiku::Loader).to receive(:new).never
-      #
-      #    expect {
-      #      DotenvHaiku::App.load
-      #    }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
-      #  end
-      #  it "should raise an error with only an :app_root argument" do
-      #    expect(DotenvHaiku::Loader).to receive(:new).never
-      #
-      #    expect {
-      #      DotenvHaiku::App.load(:app_root => app_root_arg)
-      #    }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
-      #  end
-      #  it "should raise an error with only an :app_env argument" do
-      #    expect(DotenvHaiku::Loader).to receive(:new).never
-      #
-      #    expect {
-      #      DotenvHaiku::App.load(:app_env => app_env_arg)
-      #    }.to raise_error(DotenvHaiku::App::NoAppRootFound)
-      #  end
-      #  it "should use :app_env & :app_root arguments" do
-      #    expect(DotenvHaiku::Loader).to receive(:new)\
-      #      .with(
-      #        hash_including(
-      #          :app_env => a_string_inquirer(app_env_arg),
-      #          :app_root => app_root_arg
-      #        )
-      #      )
-      #
-      #    DotenvHaiku::App.load(
-      #      :app_env => app_env_arg,
-      #      :app_root => app_root_arg
-      #    )
-      #  end
-      #end
+      context "with no Rails object" do
+        before :context do
+          module ::Rails
+            def self.env; fail NameError; end
+            def self.root; fail NameError; end
+          end
+        end
+
+        it "should raise an error with no arguments" do
+          expect(DotenvHaiku::Loader).to receive(:new).never
+
+          expect {
+            DotenvHaiku::App.load
+          }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
+        end
+        it "should raise an error with only an :app_root argument" do
+          expect(DotenvHaiku::Loader).to receive(:new).never
+
+          expect {
+            DotenvHaiku::App.load(:app_root => app_root_arg)
+          }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
+        end
+        it "should raise an error with only an :app_env argument" do
+          expect(DotenvHaiku::Loader).to receive(:new).never
+
+          expect {
+            DotenvHaiku::App.load(:app_env => app_env_arg)
+          }.to raise_error(DotenvHaiku::App::NoAppRootFound)
+        end
+        it "should use :app_env & :app_root arguments" do
+          expect(DotenvHaiku::Loader).to receive(:new)\
+            .with(
+              hash_including(
+                :app_env => a_string_inquirer(app_env_arg),
+                :app_root => app_root_arg
+              )
+            )
+
+          DotenvHaiku::App.load(
+            :app_env => app_env_arg,
+            :app_root => app_root_arg
+          )
+        end
+      end
 
       context "with Rails.env only" do
         before(:context) do
-          #class ::Rails
-          #  def self.env; "via_rails_env"; end
-          #  def self.root; nil; end
-          #end
+          module ::Rails
+            def self.env; "via_rails_env"; end
+            def self.root; fail NoMethodError; end
+          end
         end
         it "should raise an error with no arguments" do
           expect(DotenvHaiku::Loader).to receive(:new).never
@@ -118,9 +120,12 @@ context "Rails 3 application" do
       end
 
       context "with Rails.root only" do
-        #class ::Rails
-        #  def self.root; "via_rails_root"; end
-        #end
+        before :context do
+          module ::Rails
+            def self.env; fail NoMethodError; end
+            def self.root; "via_rails_root"; end
+          end
+        end
 
         it "should raise an error with no arguments" do
           expect(DotenvHaiku::Loader).to receive(:new).never
@@ -156,12 +161,12 @@ context "Rails 3 application" do
         end
       end
 
-      context "with RAILS_ENV and RAILS_ROOT" do
+      context "with Rails.env and Rails.root" do
         before :context do
-          #class ::Rails
-          #  def self.env; "via_rails_env"; end
-          #  def self.root; "via_rails_root"; end
-          #end
+          module ::Rails
+            def self.env; "via_rails_env"; end
+            def self.root; "via_rails_root"; end
+          end
         end
 
         it "should work with no arguments" do

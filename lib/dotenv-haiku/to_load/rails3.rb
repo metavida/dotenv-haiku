@@ -2,6 +2,8 @@
 # https://github.com/bkeepers/dotenv/blob/v1.0.2/lib/dotenv/rails.rb
 
 require "dotenv"
+require "rails/railtie"
+require "active_support"
 begin
   require "spring/watcher"
 rescue LoadError # rubocop:disable Lint/HandleExceptions
@@ -40,7 +42,7 @@ class DotenvHaiku
     # Returns a StringInquirer-wrapped string
     # Uses the given :app_env of falls back to the default
     def app_env
-      ActiveSupport::StringInquirer.new(
+      ::ActiveSupport::StringInquirer.new(
         options[:app_env] || default_app_env
       )
     end
