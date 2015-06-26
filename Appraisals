@@ -1,3 +1,7 @@
+appraise "no_framework" do
+
+end
+
 appraise "rails3" do
   gem "rails", "~>3.2.14"
 end

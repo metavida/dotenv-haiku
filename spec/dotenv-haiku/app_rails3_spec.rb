@@ -1,12 +1,29 @@
 require "spec_helper"
 
-puts 'start spec3'
-#puts defined?(Rails).inspect
-#require 'rails'
-#puts defined?(Rails).inspect
-#puts defined?(Rails::Railtie).inspect
-#require 'rails/railtie'
-#puts defined?(Rails::Railtie).inspect
+catch :skip_tests do
+
+  if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
+    puts "Skipped #{__FILE__} because these tests only work when executed with `appraisal`"
+    puts "   appraisal rails3 rake spec"
+    throw :skip_tests
+  end
+
+  rails_version = ''
+  begin
+    require "rails"
+    rails_version = Rails.version
+  rescue LoadError
+  rescue
+  end
+  if rails_version.empty?
+    puts "Skipped #{__FILE__} because these tests only work when executed with Rails 3 loaded, and Rails was not loaded at all!"
+    puts "   appraisal rails3 rake spec"
+    throw :skip_tests
+  elsif rails_version < "3.0" || rails_version >= "4.0"
+    puts "Skipped #{__FILE__} because these tests only work when executed with Rails 3 loaded, and Rails #{rails_version} was found"
+    puts "   appraisal rails3 rake spec"
+    throw :skip_tests
+  end
 
 context "Rails 3 application" do
   before :context do
@@ -198,4 +215,6 @@ context "Rails 3 application" do
       end
     end
   end
+end
+
 end
