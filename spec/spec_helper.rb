@@ -39,3 +39,9 @@ end
 def undefine(klass, const)
   klass.send(:remove_const, const) if klass.constants.include?(const)
 end
+
+def skip_because(message, appraisal_name)
+  puts "Skipped #{__FILE__} because #{Array(message).join(' ')}"
+  puts "   appraisal #{appraisal_name} rake spec"
+  throw :skip_tests
+end
