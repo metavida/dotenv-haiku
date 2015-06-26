@@ -1,7 +1,7 @@
 require "spec_helper"
 
-# Dummy class
-class Rails
+# Dummy Rails
+module Rails
 end
 
 describe DotenvHaiku do
