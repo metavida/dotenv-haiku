@@ -4,7 +4,8 @@ require "spec_helper"
 
 catch :skip_tests do
   if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
-    skip_because(__FILE__,
+    skip_because(
+      __FILE__,
       "these tests only work when executed with `appraisal`",
       "rails3"
     )
@@ -13,7 +14,8 @@ catch :skip_tests do
   begin
     require "rails"
   rescue LoadError
-    skip_because(__FILE__,
+    skip_because(
+      __FILE__,
       ["these tests only work when executed with Rails 3 loaded,",
        "and Rails was not available at all!"],
       "rails3"
@@ -27,7 +29,8 @@ catch :skip_tests do
     rails_version = ""
   end
   if rails_version < "3.0" || rails_version >= "4.0"
-    skip_because(__FILE__,
+    skip_because(
+      __FILE__,
       ["these tests only work when executed with Rails 3 loaded,",
        "and Rails #{rails_version} was found."],
       "rails3"
