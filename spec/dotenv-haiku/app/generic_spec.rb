@@ -3,7 +3,7 @@ require "spec_helper"
 context "generic application" do
   before :context do
     undefine DotenvHaiku, :App
-    require "dotenv-haiku/to_load/generic"
+    require "dotenv-haiku/app/generic"
   end
 
   describe "DotenvHaiku::App" do

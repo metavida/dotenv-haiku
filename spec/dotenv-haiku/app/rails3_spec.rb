@@ -7,7 +7,7 @@ catch :skip_tests do
     skip_because(
       __FILE__,
       "these tests only work when executed with `appraisal`",
-      "rails4"
+      "rails3"
     )
   end
 
@@ -16,9 +16,9 @@ catch :skip_tests do
   rescue LoadError
     skip_because(
       __FILE__,
-      ["these tests only work when executed with Rails 4 loaded,",
+      ["these tests only work when executed with Rails 3 loaded,",
        "and Rails was not available at all!"],
-      "rails4"
+      "rails3"
     )
   end
 
@@ -28,19 +28,19 @@ catch :skip_tests do
   rescue
     rails_version = ""
   end
-  if rails_version < "4.0" || rails_version >= "5.0"
+  if rails_version < "3.0" || rails_version >= "4.0"
     skip_because(
       __FILE__,
-      ["these tests only work when executed with Rails 4 loaded,",
+      ["these tests only work when executed with Rails 3 loaded,",
        "and Rails #{rails_version} was found."],
-      "rails4"
+      "rails3"
     )
   end
 
-  context "Rails 4 application" do
+  context "Rails 3 application" do
     before :context do
       undefine DotenvHaiku, :App
-      require "dotenv-haiku/to_load/rails4"
+      require "dotenv-haiku/app/rails3"
     end
 
     describe "DotenvHaiku::App" do
