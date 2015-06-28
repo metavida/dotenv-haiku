@@ -1,7 +1,8 @@
 # Almost identical to v2.0.1 dotenv/rails.rb
 # https://github.com/bkeepers/dotenv/blob/v2.0.1/lib/dotenv/rails.rb
 
-require "dotenv"
+require "dotenv-haiku/app/base"
+
 require "rails/railtie"
 require "active_support"
 
@@ -27,24 +28,7 @@ class DotenvHaiku
 
     config.before_configuration { load }
 
-    attr_accessor :options
-
-    def self.load(options = {})
-      instance = new
-      instance.options = options
-      instance.load
-    end
-
-    def load
-      Dotenv.load(*to_load)
-    end
-
-    def to_load
-      DotenvHaiku::Loader.new(
-        :app_env  => app_env,
-        :app_root => app_root
-      )
-    end
+    include AppBase
 
     private
 

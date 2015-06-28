@@ -1,9 +1,11 @@
 # Almost identical to v1.0.2 dotenv/rails.rb
 # https://github.com/bkeepers/dotenv/blob/v1.0.2/lib/dotenv/rails.rb
 
-require "dotenv"
+require "dotenv-haiku/app/base"
+
 require "rails/railtie"
 require "active_support"
+
 begin
   require "spring/watcher"
 rescue LoadError # rubocop:disable Lint/HandleExceptions
@@ -17,25 +19,13 @@ class DotenvHaiku
     class NoAppEnvFound < RuntimeError; end
     class NoAppRootFound < RuntimeError; end
 
-    attr_accessor :options
+    include AppBase
 
-    def self.load(options = {})
-      instance = new
-      instance.options = options
-      instance.load
-    end
-
-    def load
-      Dotenv.load(*to_load)
+    def load_with_spring
+      load_without_spring
       Spring.watch(*to_load) if defined?(Spring)
     end
-
-    def to_load
-      DotenvHaiku::Loader.new(
-        :app_env  => app_env,
-        :app_root => app_root
-      )
-    end
+    alias_method_chain :load, :spring
 
     private
 

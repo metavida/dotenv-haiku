@@ -5,9 +5,9 @@ class DotenvHaiku
   # Tries to determine the application's environment
   # and the root directory containing .env files.
   class App
-    include AppBase
-
     class NoAppEnvFound < RuntimeError; end
+
+    include AppBase
 
     private
 

@@ -1,4 +1,5 @@
 require "dotenv-haiku/string_inquirer_backport"
+require "dotenv-haiku/app/base"
 
 class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
@@ -7,24 +8,7 @@ class DotenvHaiku
     class NoAppEnvFound < RuntimeError; end
     class NoAppRootFound < RuntimeError; end
 
-    attr_accessor :options
-
-    def self.load(options = {})
-      instance = new
-      instance.options = options
-      instance.load
-    end
-
-    def load
-      Dotenv.load(*to_load)
-    end
-
-    def to_load
-      DotenvHaiku::Loader.new(
-        :app_env  => app_env,
-        :app_root => app_root
-      )
-    end
+    include AppBase
 
     private
 
