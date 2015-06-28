@@ -71,7 +71,7 @@ describe DotenvHaiku do
       end
 
       catch :skip_tests do
-        skip_test_unless_rails_between("3.0", "4.0", __FILE__)
+        skip_unless_rails_between("3.0", "4.0", __FILE__)
 
         it "should work to load app for rails3" do
           expect {
@@ -90,7 +90,7 @@ describe DotenvHaiku do
       end
 
       catch :skip_tests do
-        skip_test_unless_rails_between("4.0", "5.0", __FILE__)
+        skip_unless_rails_between("4.0", "5.0", __FILE__)
 
         it "should work to load app for rails4" do
           expect {
