@@ -40,8 +40,44 @@ def undefine(klass, const)
   klass.send(:remove_const, const) if klass.constants.include?(const)
 end
 
-def skip_because(file, message, appraisal_name)
-  puts "Skipped #{file} because #{Array(message).join(' ')}"
+def skip_because(calling_file, message, appraisal_name)
+  puts "Skipped some tests in #{calling_file} because #{Array(message).join(' ')}"
   puts "   appraisal #{appraisal_name} rake spec"
   throw :skip_tests
+end
+
+def skip_test_unless_rails_between(min_rails_version, over_max_rails_version, calling_file=__FILE__)
+  if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
+    skip_because(
+      calling_file,
+      "these tests only work when executed with `appraisal`",
+      "rails3"
+    )
+  end
+
+  begin
+    require "rails"
+  rescue LoadError
+    skip_because(
+      calling_file,
+      ["these tests only work when executed with Rails 3 loaded,",
+       "and Rails was not available at all!"],
+      "rails3"
+    )
+  end
+
+  rails_version = ""
+  begin
+    rails_version = Rails.version
+  rescue
+    rails_version = ""
+  end
+  if rails_version < min_rails_version || rails_version >= over_max_rails_version
+    skip_because(
+      calling_file,
+      ["these tests only work when executed with Rails #{min_rails_version} loaded,",
+       "and Rails #{rails_version} was found."],
+      "rails3"
+    )
+  end
 end

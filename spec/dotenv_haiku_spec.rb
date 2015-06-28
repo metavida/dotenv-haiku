@@ -61,6 +61,38 @@ describe DotenvHaiku do
 
       DotenvHaiku.send(:require_rails_app)
     end
+
+    context "with Rails 3" do
+      after do
+        undefine DotenvHaiku, :App
+      end
+
+      catch :skip_tests do
+        skip_test_unless_rails_between("3.0", "4.0", __FILE__)
+
+        it "should work to load app for rails3" do
+          expect {
+            DotenvHaiku.send(:require_rails_app)
+          }.not_to raise_error
+        end
+      end
+    end
+
+    context "with Rails 4" do
+      after do
+        undefine DotenvHaiku, :App
+      end
+
+      catch :skip_tests do
+        skip_test_unless_rails_between("4.0", "5.0", __FILE__)
+
+        it "should work to load app for rails4" do
+          expect {
+            DotenvHaiku.send(:require_rails_app)
+          }.not_to raise_error
+        end
+      end
+    end
   end
 
   describe ".app_name" do
