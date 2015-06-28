@@ -69,7 +69,7 @@ class DotenvHaiku
     end
 
     def base
-      "dotenv-haiku/to_load"
+      "dotenv-haiku/app"
     end
   end
 end
