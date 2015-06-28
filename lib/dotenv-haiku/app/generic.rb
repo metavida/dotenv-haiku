@@ -1,29 +1,13 @@
 require "dotenv-haiku/string_inquirer_backport"
+require "dotenv-haiku/app/base"
 
 class DotenvHaiku
   # Tries to determine the application's environment
   # and the root directory containing .env files.
   class App
+    include AppBase
+
     class NoAppEnvFound < RuntimeError; end
-
-    attr_accessor :options
-
-    def self.load(options = {})
-      instance = new
-      instance.options = options
-      instance.load
-    end
-
-    def load
-      Dotenv.load(*to_load)
-    end
-
-    def to_load
-      DotenvHaiku::Loader.new(
-        :app_env  => app_env,
-        :app_root => app_root
-      )
-    end
 
     private
 
