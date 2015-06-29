@@ -52,10 +52,13 @@ class DotenvHaiku
     # initialized, so this falls back to the `RAILS_ROOT` environment variable,
     # or the current working directory.
     def default_root
-      root = ::Rails.root || ENV["RAILS_ROOT"]
-      root || (fail NoAppRootFound, "No RAILS_ROOT constant was defined")
-    rescue NameError
-      raise NoAppRootFound, "No RAILS_ROOT constant was defined"
+      root = nil
+      begin
+        root = ::Rails.root
+      rescue NameError
+      end
+      root ||= ENV["RAILS_ROOT"] || Dir.pwd
+      root || (fail NoAppRootFound, "No Rails.root was available defined")
     end
 
     config.before_configuration { load }
