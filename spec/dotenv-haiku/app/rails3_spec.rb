@@ -124,7 +124,6 @@ catch :skip_tests do
                 )
               )
 
-
             DotenvHaiku::App.load
           end
 

@@ -69,6 +69,7 @@ catch :skip_tests do
               DotenvHaiku::App.load
             }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
           end
+
           it "should raise an error with only an :app_root argument" do
             expect(DotenvHaiku::Loader).to receive(:new).never
 
@@ -76,13 +77,19 @@ catch :skip_tests do
               DotenvHaiku::App.load(:app_root => app_root_arg)
             }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
           end
-          it "should raise an error with only an :app_env argument" do
-            expect(DotenvHaiku::Loader).to receive(:new).never
 
-            expect {
-              DotenvHaiku::App.load(:app_env => app_env_arg)
-            }.to raise_error(DotenvHaiku::App::NoAppRootFound)
+          it "should work with only an :app_env argument" do
+            expect(DotenvHaiku::Loader).to receive(:new)\
+              .with(
+                hash_including(
+                  :app_env => a_string_inquirer(app_env_arg),
+                  :app_root => Dir.pwd
+                )
+              )
+
+            DotenvHaiku::App.load(:app_env => app_env_arg)
           end
+
           it "should use :app_env & :app_root arguments" do
             expect(DotenvHaiku::Loader).to receive(:new)\
               .with(
@@ -107,20 +114,31 @@ catch :skip_tests do
               def self.root; fail NoMethodError; end
             end
           end
-          it "should raise an error with no arguments" do
-            expect(DotenvHaiku::Loader).to receive(:new).never
 
-            expect {
-              DotenvHaiku::App.load
-            }.to raise_error(DotenvHaiku::App::NoAppRootFound)
-          end
-          it "should raise an error with only an :app_env argument" do
-            expect(DotenvHaiku::Loader).to receive(:new).never
+          it "should work with no arguments" do
+            expect(DotenvHaiku::Loader).to receive(:new)\
+              .with(
+                hash_including(
+                  :app_env => a_string_inquirer(Rails.env),
+                  :app_root => Dir.pwd
+                )
+              )
 
-            expect {
-              DotenvHaiku::App.load
-            }.to raise_error(DotenvHaiku::App::NoAppRootFound)
+            DotenvHaiku::App.load
           end
+
+          it "should work with only an :app_env argument" do
+            expect(DotenvHaiku::Loader).to receive(:new)\
+              .with(
+                hash_including(
+                  :app_env => a_string_inquirer(app_env_arg),
+                  :app_root => Dir.pwd
+                )
+              )
+
+            DotenvHaiku::App.load(:app_env => app_env_arg)
+          end
+
           it "should use the :app_root argument" do
             expect(DotenvHaiku::Loader).to receive(:new)\
               .with(
@@ -134,6 +152,7 @@ catch :skip_tests do
               :app_root => app_root_arg
             )
           end
+
           it "should use :app_env & :app_root arguments" do
             expect(DotenvHaiku::Loader).to receive(:new)\
               .with(
@@ -166,6 +185,7 @@ catch :skip_tests do
               DotenvHaiku::App.load
             }.to raise_error(DotenvHaiku::App::NoAppEnvFound)
           end
+
           it "should use :app_env argument" do
             expect(DotenvHaiku::Loader).to receive(:new)\
               .with(
@@ -177,6 +197,7 @@ catch :skip_tests do
 
             DotenvHaiku::App.load(:app_env => app_env_arg)
           end
+
           it "should use :app_env & :app_root arguments" do
             expect(DotenvHaiku::Loader).to receive(:new)\
               .with(

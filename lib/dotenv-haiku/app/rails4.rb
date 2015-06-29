@@ -52,13 +52,17 @@ class DotenvHaiku
     end
 
     # Internal: `Rails.root` is nil in Rails 4.1 before the application is
-    # initialized, so this falls back to the `RAILS_ROOT` environment variable,
-    # or the current working directory.
+    # initialized, so this falls back to the the current working directory.
     def default_root
-      root = ::Rails.root || ENV["RAILS_ROOT"]
-      root || (fail NoAppRootFound, "No RAILS_ROOT constant was defined")
-    rescue NameError
-      raise NoAppRootFound, "No RAILS_ROOT constant was defined"
+      root = nil
+
+      begin
+        root = ::Rails.root
+      rescue NameError # rubocop:disable Lint/HandleExceptions
+      end
+
+      root ||= Dir.pwd
+      root || (fail NoAppRootFound, "No Rails.root was available defined")
     end
   end
 end
