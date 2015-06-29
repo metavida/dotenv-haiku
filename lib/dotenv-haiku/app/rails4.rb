@@ -23,6 +23,9 @@ class DotenvHaiku
   # Dotenv Railtie for using Dotenv to load environment from a file into
   # Rails applications
   class App < Rails::Railtie
+    # The type of App that DotenvHaiku thinks you're building
+    DETECTED = "Rails 4"
+
     class NoAppEnvFound < RuntimeError; end
     class NoAppRootFound < RuntimeError; end
 

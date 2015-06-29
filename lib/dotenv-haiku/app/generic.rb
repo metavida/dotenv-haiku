@@ -5,6 +5,9 @@ class DotenvHaiku
   # Tries to determine the application's environment
   # and the root directory containing .env files.
   class App
+    # The type of App that DotenvHaiku thinks you're building
+    DETECTED = "Non-Rails"
+
     class NoAppEnvFound < RuntimeError; end
 
     include AppBase
