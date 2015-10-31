@@ -20,7 +20,7 @@ class DotenvHaiku
     #    Default: Rails.root
     def load(options = {})
       @options = options
-      set_up_app unless defined?(DotenvHaiku::App)
+      set_up_app unless defined?(DotenvHaiku::App::DETECTED)
 
       DotenvHaiku::App.load
     end
@@ -69,7 +69,7 @@ class DotenvHaiku
     end
 
     def base
-      "dotenv-haiku/to_load"
+      "dotenv-haiku/app"
     end
   end
 end

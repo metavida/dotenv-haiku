@@ -1,7 +1,7 @@
 require "spec_helper"
 
-# Dummy class
-class Rails
+# Dummy Rails
+module Rails
 end
 
 describe DotenvHaiku do
@@ -19,10 +19,10 @@ describe DotenvHaiku do
       DotenvHaiku.load
     end
 
-    it "should not call set_up_app if ::App is already defined" do
+    it "should not call set_up_app if ::App::DETECTED is already defined" do
       # dummy set_up_app
       class DotenvHaiku::App
-        def self.load; end
+        DETECTED = 'absolutely'
       end
 
       expect(DotenvHaiku).to receive(:set_up_app).never
@@ -34,7 +34,7 @@ describe DotenvHaiku do
   describe ".require_rails_app" do
     it "should rails1 when appropriate" do
       expect(DotenvHaiku).to receive(:app_version) { "1.2.6" }
-      expect(DotenvHaiku).to receive(:require).with(match(%r{/to_load/rails1$}))
+      expect(DotenvHaiku).to receive(:require).with(match(%r{/app/rails1$}))
 
       DotenvHaiku.send(:require_rails_app)
     end
@@ -50,16 +50,54 @@ describe DotenvHaiku do
 
     it "should rails3 when appropriate" do
       expect(DotenvHaiku).to receive(:app_version) { "3.0.0" }
-      expect(DotenvHaiku).to receive(:require).with(match(%r{/to_load/rails3$}))
+      expect(DotenvHaiku).to receive(:require).with(match(%r{/app/rails3$}))
 
       DotenvHaiku.send(:require_rails_app)
     end
 
     it "should rails4 when appropriate" do
       expect(DotenvHaiku).to receive(:app_version) { "4.1.0" }
-      expect(DotenvHaiku).to receive(:require).with(match(%r{/to_load/rails4$}))
+      expect(DotenvHaiku).to receive(:require).with(match(%r{/app/rails4$}))
 
       DotenvHaiku.send(:require_rails_app)
+    end
+
+    context "with Rails 3" do
+      before do
+        undefine DotenvHaiku, :App
+      end
+      after do
+        undefine DotenvHaiku, :App
+      end
+
+      catch :skip_tests do
+        skip_unless_rails_between("3.0", "4.0", __FILE__)
+
+        it "should work to load app for rails3" do
+          expect {
+            DotenvHaiku.send(:require_rails_app)
+          }.not_to raise_error
+        end
+      end
+    end
+
+    context "with Rails 4" do
+      before do
+        undefine DotenvHaiku, :App
+      end
+      after do
+        undefine DotenvHaiku, :App
+      end
+
+      catch :skip_tests do
+        skip_unless_rails_between("4.0", "5.0", __FILE__)
+
+        it "should work to load app for rails4" do
+          expect {
+            DotenvHaiku.send(:require_rails_app)
+          }.not_to raise_error
+        end
+      end
     end
   end
 

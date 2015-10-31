@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### New
+
+* Generic app support now looks for `ENV['RACK_ENV']`, `ENV['RAILS_ENV']`, `ENV['APP_ENV']` values.
+* You can always override `:env`, and `:root` values, regardless of the version of Rails (or not-Rails) that you use.
+
+### Breaking Changes
+
+* Fails hard in Rails 1 apps if there is no `RAILS_ROOT` constant defined.
+
+## 0.2.0 - 2015-04-20
+
 ### Breaking Changes
 
 * Now use `require "dotenv-haiku"` instead of `require "dotenv/rails"`

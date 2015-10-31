@@ -3,7 +3,7 @@ guard "bundler" do
 end
 
 group :red_green_refactor, :halt_on_fail => true do
-  guard "rspec", :cmd => "bundle exec rspec" do
+  guard "rspec", :cmd => "appraisal rspec" do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^spec/spec_helper.rb$}) { "spec" }
     watch(%r{^lib/(.+)\.rb$}) do |m|

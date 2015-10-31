@@ -2,6 +2,7 @@
 
 begin
   require "bundler/gem_tasks"
+  require "bundler/setup"
 rescue LoadError
   puts "Bundler not available. Install it with: gem install bundler"
 end

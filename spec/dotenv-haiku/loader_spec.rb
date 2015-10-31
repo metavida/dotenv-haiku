@@ -1,10 +1,6 @@
 require "spec_helper"
 require "dotenv-haiku/string_inquirer_backport"
 
-# Dummy class
-class Rails
-end
-
 describe DotenvHaiku::Loader do
   before do
     @app_root = fixture_path("")

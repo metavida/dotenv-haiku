@@ -118,3 +118,9 @@ If you want a better idea of how dotenv works, check out the [Ruby Rogues Code R
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+### Running Tests
+
+This gem is designed to work with multiple versions of Ruby and Rails. To make this work, we're trying out [the appraisal gem](https://github.com/thoughtbot/appraisal).
+
+
