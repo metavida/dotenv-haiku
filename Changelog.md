@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 - 2015-10-30
+
+### Fixes
+
+* Fix Rails 4 loader to work with Rails 4.1.x
+
+## 0.2.0 - 2015-06-22
 
 ### Breaking Changes
 
