@@ -19,10 +19,10 @@ describe DotenvHaiku do
       DotenvHaiku.load
     end
 
-    it "should not call set_up_app if ::App is already defined" do
+    it "should not call set_up_app if ::App::DETECTED is already defined" do
       # dummy set_up_app
       class DotenvHaiku::App
-        def self.load; end
+        DETECTED = 'absolutely'
       end
 
       expect(DotenvHaiku).to receive(:set_up_app).never
