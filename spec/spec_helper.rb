@@ -47,39 +47,56 @@ def skip_because(file, message, appraisal_name)
 end
 
 def skip_unless_rails_between(min_version, over_max_version, file = __FILE__)
-  if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
-    skip_because(
-      file,
-      "these tests only work when executed with `appraisal`",
-      "rails3"
-    )
-  end
+  skip_unless_appraisal_or_travis_is_in_use(file)
+  skip_unless_rails_is_available(file)
 
-  begin
-    require "rails"
-  rescue LoadError
-    skip_because(
-      file,
-      ["these tests only work when executed with Rails 3 loaded,",
-       "and Rails was not available at all!"],
-      "rails3"
-    )
-  end
+  skip_if_rails_version_is_too_high(min_version, over_max_version, file)
+  skip_if_rails_version_is_too_low(min_version, file)
 
-  rails_version = ""
-  begin
-    rails_version = Rails.version
-  rescue
-    rails_version = ""
-  end
+  true
+end
 
-  return true if rails_version >= min_version &&
-                 rails_version < over_max_version
+private
 
+def skip_unless_appraisal_or_travis_is_in_use(file)
+  skip_because(
+    file,
+    "these tests only work when executed with `appraisal`",
+    "rails3"
+  ) unless ENV["APPRAISAL_INITIALIZED"] || ENV["TRAVIS"]
+end
+
+def skip_unless_rails_is_available(file)
+  require "rails"
+rescue LoadError
+  skip_because(
+    file,
+    ["these tests only work when executed with Rails 3 loaded,",
+     "and Rails was not available at all!"],
+    "rails3"
+  )
+end
+
+def skip_if_rails_version_is_too_high(min_version, over_max_version, file)
   skip_because(
     file,
     ["these tests only work when executed with Rails #{min_version} loaded,",
      "and Rails #{rails_version} was found."],
     "rails3"
-  )
+  ) unless rails_version < over_max_version
+end
+
+def skip_if_rails_version_is_too_low(min_version, file)
+  skip_because(
+    file,
+    ["these tests only work when executed with Rails #{min_version} loaded,",
+     "and Rails #{rails_version} was found."],
+    "rails3"
+  ) unless rails_version >= min_version
+end
+
+def rails_version
+  Rails.version
+rescue
+  ""
 end
