@@ -111,16 +111,48 @@ Dotenv::App.load(:app_env => MyStringInquirer.new(ENV["RACK_ENV"]))
 
 ## Contributing
 
-If you want a better idea of how dotenv works, check out the [Ruby Rogues Code Reading of dotenv](https://www.youtube.com/watch?v=lKmY_0uY86s).
+We'd love to have you contribute to this project! The basic steps are:
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+
+1. Create a Fork on GitHub
+2. Create a git branch for your changes
+3. Make local changes & test them
+4. Commit your changes
+5. Push to the branch
+6. Create new Pull Request
+
+### Setting up your local environment
+
+In order to run tests locally, you'll have to use the bundler and [appraisal](https://github.com/thoughtbot/appraisal) gems.
+
+```shell
+$ bundle --version || gem install bundler
+$ bundle install
+$ bundle exec appraisal install
+```
 
 ### Running Tests
 
-This gem is designed to work with multiple versions of Ruby and Rails. To make this work, we're trying out [the appraisal gem](https://github.com/thoughtbot/appraisal).
+This gem is designed to work with multiple versions of Ruby and Rails. Fortunately, appraisal lets us quickly & easily run tests against multiple Rails versions.
 
+```shell
+$ bundle exec appraisal rspec
+```
 
+### Code Style
+
+This project uses [RuboCop](http://batsov.com/rubocop/) to automatically encourage/enforce use of consistent coding style in all of the project's ruby code.
+
+```shell
+$ bundle exec rubocop
+```
+
+### Auto-running Tests & Tools
+
+This project uses [Guard](http://guardgem.org/) to make it easy to continuously run all tests and other coding tools (like RuboCop) as you code.
+
+```shell
+$ bundle exec guard
+```
+
+Now, with guard running, you can edit any files in the project & the appropriate tests & checks will be run as you save your local changes! If you want to have guard re-run the entire test suite, just hit enter from within your guard console.
